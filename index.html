@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>フォーム送信</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 50px;
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      width: 250px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3897f0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>パスワードを送信</h2>
+  <form id="form">
+    <input type="password" id="password" placeholder="パスワードを入力"><br>
+    <button type="submit">送信</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("/.netlify/functions/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+
+      const text = await res.text();
+      document.getElementById("response").innerText = text;
+    });
+  </script>
+</body>
+</html>
